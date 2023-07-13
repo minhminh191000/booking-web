@@ -1,0 +1,10 @@
+{% extends "product/index.html" %}
+{%block body%}
+<div class="container-xxl p-0 text-center">
+    <h1 style="    margin-top: 10%;
+    font-size: 9rem;">404</h1>
+    <h2 style="font-size: 3rem;
+    margin-bottom: 3rem;">OPPS! We couldn't find the page you're looking for.</h2>
+    <a  class="btn btn-secondary" href="{%url 'product:home'%}" style="border-radius: 7px;">Go back home</a>
+</div>
+{%endblock%}

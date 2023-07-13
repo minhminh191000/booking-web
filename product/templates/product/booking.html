@@ -1,0 +1,230 @@
+{%extends "product/index.html"%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- <title>Restaurant - Bootstrap Restaurant Template</title> -->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    {%load static%}
+    <!-- Template Stylesheet -->
+    {%block css%}
+    <link href="{% static 'css/booking.css' %}" rel="stylesheet">
+    {%endblock%}
+</head>
+
+<body>
+    {%block hero%}
+    <div class="container-xxl py-5 bg-dark hero-header">
+
+    </div>
+    {%endblock%}
+    {%block main%}
+    <!-- Button trigger modal -->
+    <button hidden id="mess_log" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mess_log_modal">
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="mess_log_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered text-center" style="max-width: 700px;">
+            <div class="modal-content" style="width: 600px; background-color: #F1F8FF;
+                                        margin: auto;
+                                        border: none;
+                                        height: fit-content;
+                                        border-radius: 10px;">
+                <div class="modal-header" style="height: 60px;">
+                    <h3 class="modal-title" id="exampleModalLabel">Message</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="mess_text" class="modal-body" style="font-size: 2.5rem; line-height: 66px;">
+                    <div hidden id="mess_icon_success" class="success-checkmark">
+                        <div  class="check-icon">
+                            <span class="icon-line line-tip"></span>
+                            <span class="icon-line line-long"></span>
+                            <div class="icon-circle"></div>
+                            <div class="icon-fix"></div>
+                        </div>
+                    </div>
+                    <div hidden id="mess_icon_fail" style="margin: 1rem 0; color: red;">
+                        <i class="fa-sharp fa-regular fa-circle-xmark fa-xl"></i>
+                    </div>
+
+
+                    <p id="mess-log-order" style="font-size: 1.5rem;"></p>   
+                </div>
+                <div class="modal-footer" style="height: 70px;">
+                    <button id="btn_confirm_mess" type="button" url="{%url 'product:menu'%}" class="btn btn-primary shadow-none" data-bs-dismiss="modal" style="font-size: 1.2rem;width: 80px;
+                border-radius: 10px;
+                margin-right: 15px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Book a table start-->
+    <div class="container form-main wow fadeInUp">
+        <div class="text-center" data-wow-delay="0.1s" style="margin-bottom: 0.5rem;">
+            <h4 class="section-title ff-secondary text-center text-primary fw-normal">Booking table</h4>
+        </div>
+        <div class="modal-body">
+            <div class="mess-warning">
+                <span>-You can only schedule an appointment within 48 hours from the time of booking, and the appointment time must be after the booking time.</span>
+                <br>
+                <span>-Before the scheduled time of 10-20 minutes, you will receive a confirmation call from our staff. Please pay attention to your phone to confirm.</span>
+                <br>
+                <span>-In case you do not receive the call or are unable to answer it, you can confirm via email sent to your mailbox (before 10-20 minutes).</span>
+                <br>
+                <span>-Your order will be cancelled if you do not confirm within the specified time period mentioned above.</span>
+                <br>
+                <span>-Only invite when it is necessary because the person you invite on the system will have full control over your reservation table.</span>
+                <br>
+                <span>-Please enter the correct email and phone number to successfully make a reservation.</span>
+            </div>
+            <form method="POST" action="{%url 'product:booking'%}" id="form-booking">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="input-group-custom">
+                            <input required type="text" id="name-input" class="input-custom"
+                                value="{{customer.full_name}}" placeholder=" ">
+                            <label for="name-input" class="user-label">Your Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group-custom">
+                            <input required type="email" id="email-input" class="input-custom"
+                                value="{{customer.email}}" placeholder=" ">
+                            <label for="email-input" class="user-label">Your Email</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group-custom">
+                            <input id="phone-input"  required type="tel"  pattern="[0][3-9][0-9]{8}" class="input-custom"
+                                value="{{customer.phone_number}}" placeholder=" ">
+                            <label for="phone-input" class="user-label">Your phone number</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group-custom date" id="date3" data-target-input="nearest">
+                            <input required type="text" id="date-input" class="input-custom datetimepicker-input"
+                                data-target="#date3" placeholder=" " data-toggle="datetimepicker">
+                            <label for="date-input" class="user-label">Date & Time</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating" style="width: 90%;">
+                            <select class="form-select shadow-none" id="select1">
+                                <option value="1">One person</option>
+                                <option value="2">Two people</option>
+                                <option value="3">Three people</option>
+                            </select>
+                            <label for="select1">No Of People</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="display: flex;">
+                        <div class="col-md-6">
+                            <div class="book-search-food " style="width: 88%;">
+                                <div class="XcXJs">
+                                    <div class="gAhmYY heEtWs">
+                                        <div class="kQJefP" id="search-partner" name="{%url 'product:find-partner'%}">
+                                            <i class="iFnyeo">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="#828282" width="18"
+                                                    height="18" viewBox="0 0 20 20"
+                                                    aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                                                    class="sc-rbbb40-0 iwHbVQ">
+                                                    <title>
+                                                        Search
+                                                    </title>
+                                                    <path
+                                                        d="M19.78 19.12l-3.88-3.9c1.28-1.6 2.080-3.6 2.080-5.8 0-5-3.98-9-8.98-9s-9 4-9 9c0 5 4 9 9 9 2.2 0 4.2-0.8 5.8-2.1l3.88 3.9c0.1 0.1 0.3 0.2 0.5 0.2s0.4-0.1 0.5-0.2c0.4-0.3 0.4-0.8 0.1-1.1zM1.5 9.42c0-4.1 3.4-7.5 7.5-7.5s7.48 3.4 7.48 7.5-3.38 7.5-7.48 7.5c-4.1 0-7.5-3.4-7.5-7.5z">
+                                                    </path>
+                                                </svg>
+                                            </i>
+                                        </div>
+                                        <input placeholder="Add your friend(email/phone)..." class="gLpOXO" id="input-partner" type="text">
+                                        <div class="hFiyMD">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="partner-filter" class="food-filter dropdown-menu bottom">
+                                <ul id="list-partner-filter">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="partner-selected" style="display: flex;
+                        justify-content: center;
+                        align-content: center;
+                        flex-wrap: wrap;">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="book-search-food " style="width: 90%;">
+                            <div class="XcXJs">
+                                <div class="gAhmYY heEtWs">
+                                    <div class="kQJefP" id="search-food">
+                                        <i class="iFnyeo">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="#828282" width="18"
+                                                height="18" viewBox="0 0 20 20"
+                                                aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                                                class="sc-rbbb40-0 iwHbVQ">
+                                                <title>
+                                                    Search
+                                                </title>
+                                                <path
+                                                    d="M19.78 19.12l-3.88-3.9c1.28-1.6 2.080-3.6 2.080-5.8 0-5-3.98-9-8.98-9s-9 4-9 9c0 5 4 9 9 9 2.2 0 4.2-0.8 5.8-2.1l3.88 3.9c0.1 0.1 0.3 0.2 0.5 0.2s0.4-0.1 0.5-0.2c0.4-0.3 0.4-0.8 0.1-1.1zM1.5 9.42c0-4.1 3.4-7.5 7.5-7.5s7.48 3.4 7.48 7.5-3.38 7.5-7.48 7.5c-4.1 0-7.5-3.4-7.5-7.5z">
+                                                </path>
+                                            </svg>
+                                        </i>
+                                    </div>
+                                    <input placeholder="Search your food..." class="gLpOXO" id="input-booking" type="text">
+                                    <div class="hFiyMD">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="food-filter" class="food-filter dropdown-menu bottom">
+                            <ul id="list-food-filter">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <h5 style="padding-left: 1rem;">Food order</h5>
+                    <ul class="selected-food">
+                        <p id="no-food-selected" style="text-align: center;">No food seleted</p
+                            style="text-align: center;">
+                    </ul>
+                </div>
+
+                <div class="col-12 total-money" hidden>
+                    <div class="">
+                        <strong>Total money: </strong>
+                        <span id="total-money"></span>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-floating">
+                        <textarea class="form-control shadow-none" placeholder="Special Request" id="request-input"
+                            style="height: 150px"></textarea>
+                        <label for="request-input">Special Request</label>
+                    </div>
+                </div>
+                <div class="modal-footer" style="margin-top: 1rem;">
+                    <!-- <a id="cancel-booking" href="{%url 'product:menu'%}" class="btn btn-secondary shadow-none">Cancel</a> -->
+                    <button type="submit" class="btn btn-primary shadow-none on-submit" >Book now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--book a table end-->
+    {%endblock%}
+
+    {%block js%}
+    <script src="{%static 'js/booking.js'%}"></script>
+    {%endblock%}
+</body>
+
+</html>

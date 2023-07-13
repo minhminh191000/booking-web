@@ -1,0 +1,184 @@
+{%extends 'product/index.html'%}
+{%load static%}
+{%block css%}
+<link href="{% static 'css/infor.css'%}" rel="stylesheet">
+<link href="{% static 'css/profile.css'%}" rel="stylesheet">
+{%endblock%}
+{%block hero%}
+<div class="container-xxl py-5 bg-dark hero-header mb-5" style="padding-bottom: 0 !important;">
+    <div class="container py-5" style="padding-bottom: 0 !important;">
+    </div>
+</div>
+{%endblock%}
+{%block main%}
+<div class="container-xxl">
+    <!-- Button trigger modal -->
+    <button hidden id="mess_log" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mess_log_modal">
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="mess_log_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered text-center" style="max-width: 700px;">
+            <div class="modal-content" style="width: 600px; background-color: #F1F8FF;
+                                        margin: auto;
+                                        border: none;
+                                        height: fit-content;
+                                        border-radius: 10px;">
+                <div class="modal-header" style="height: 60px;">
+                    <h3 class="modal-title" id="exampleModalLabel">Message</h3>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="mess_text" class="modal-body" style="font-size: 2.5rem; line-height: 66px;">
+                    <div hidden id="mess_icon_success" class="success-checkmark">
+                        <div  class="check-icon">
+                            <span class="icon-line line-tip"></span>
+                            <span class="icon-line line-long"></span>
+                            <div class="icon-circle"></div>
+                            <div class="icon-fix"></div>
+                        </div>
+                    </div>
+                    <div hidden id="mess_icon_fail" style="margin: 1rem 0; color: red;">
+                        <i class="fa-sharp fa-regular fa-circle-xmark fa-xl"></i>
+                    </div>
+
+
+                    <p id="mess-log-order" style="font-size: 1.5rem;"></p>   
+                </div>
+                <div class="modal-footer" style="height: 70px;">
+                    <button id="btn-close-mess" type="button" class="btn btn-secondary shadow-none" data-bs-dismiss="modal" style="font-size: 1.2rem;
+                    border-radius: 10px;
+                    "
+                        >Close</button>
+                    <button id="btn_confirm_mess" type="button" class="btn btn-primary shadow-none" style="font-size: 1.2rem;width: 80px;
+                border-radius: 10px;
+                margin-right: 15px;">OK</button>
+                <button id="btn_confirm_mess2" hidden type="button" class="btn btn-primary shadow-none" data-bs-dismiss="modal" style="font-size: 1.2rem;width: 80px;
+                border-radius: 10px;
+                margin-right: 15px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main">
+        <article class="article-nav">
+            <a href="{%url 'product:info'%}">
+                <p class="hover-underline-animation select-profile">Your Profile</p>
+            </a>
+            <a href="{%url 'product:booked'%}">
+                <p class="hover-underline-animation select-booked">Your Booked</p>
+            </a>
+            <a href="{%url 'product:favorites'%}">
+                <p class="hover-underline-animation select-favorite">Your Favorite</p>
+            </a>
+            <a href="{%url 'product:food-eaten'%}">
+                <p class="hover-underline-animation select-food">Food Eaten</p>
+            </a>
+            <a href="{%url 'product:pay'%}">
+                <p class="hover-underline-animation select-pay">Pay</p>
+            </a>
+            <div class="vr-line">
+                <div class="vr"></div>
+            </div>
+            <a class="btn btn-primary shadow-none" href="{%url 'product:logout' %}"
+                id="signout-btn">Sign out</a>
+
+        </article>
+        {%block section%}
+        <section class="section-body">
+            <div class="profile-pic">
+                <label class="-label" for="file">
+                    <span>Change Image</span>
+                </label>
+                <input id="file" type="file" onchange="loadFile(event)" />
+                {%if customer.url_img%}
+                <img  src="{{customer.url_img}}" id="output"
+                    width="200"/>
+                {%else%}
+                <img  src="https://i.ibb.co/R9yCWFk/images.jpg" width="200" id="output"/>
+                {%endif%}
+            </div>
+            <div style="text-align: center;margin-top: 1rem;">
+                Customer: {{customer.customer.rank.name}}
+            </div>
+            <form id="form-update-user" method="POST" action="{%url 'product:info' %}" class="profile-infor">
+                {%csrf_token%}
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <div class="input-group-custom">
+                            <input required type="text" id="name-input" class="input-custom"
+                                value="{{customer.full_name}}" placeholder=" ">
+                            <label for="name-input" class="user-label">Full Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group-custom">
+                            <input required type="email" id="email-input" class="input-custom"
+                                value="{{customer.email}}" placeholder=" ">
+                            <label for="email-input" class="user-label">Your Email</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group-custom">
+                            <input required type="text" id="address-input" class="input-custom"
+                                value="{{customer.address}}" placeholder=" ">
+                            <label for="address-input" class="user-label">Your Address</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group-custom">
+                            <input id="phone-input" required type="tel"  pattern="[0][1-9]{9}" class="input-custom"
+                                value="{{customer.phone_number}}" placeholder=" ">
+                            <label for="phone-input" class="user-label">Your phone number</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group-custom">
+                            <input type="password" id="pass-input" class="input-custom"
+                                 placeholder=" ">
+                            <label for="pass-input" class="user-label">Your Password</label>
+                            <span>
+                                <svg stroke="currentColor" id="unscore-password" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2" stroke-linejoin="round"
+                                        stroke-linecap="round"></path>
+                                    <path
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group-custom">
+                            <input type="password" id="pass2-input" class="input-custom"
+                                 placeholder=" ">
+                            <label for="pass2-input" class="user-label">Confirm Your Password</label>
+                            <span>
+                                <svg stroke="currentColor" id="unscore-password2" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-width="2" stroke-linejoin="round"
+                                        stroke-linecap="round"></path>
+                                    <path
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                        stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="margin-top: 1rem; width: 93%;">
+                        <a href="{%url 'product:home'%}" class="btn btn-secondary shadow-none">Cancel</a>
+                        <button type="submit" class="btn btn-primary shadow-none on-submit" >Update profile</button>
+                    </div>
+                </div>
+                
+            </form>
+        </section>
+        {%endblock%}
+    </div>
+</div>
+{%endblock%}
+
+{%block js%}
+<script src="{% static 'js/infor.js' %}"></script>
+<script src="{% static 'js/signout.js' %}"></script>
+{%endblock%}

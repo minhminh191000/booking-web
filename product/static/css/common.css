@@ -1,0 +1,9 @@
+
+
+.menu-info{
+    border-radius: .5rem !important;
+    padding: .5rem !important;
+}
+.menu-info a:not(:last-child){
+    margin-bottom: .4rem;
+}

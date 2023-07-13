@@ -1,0 +1,121 @@
+{% extends "product/index.html" %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- <title>Restaurant - Bootstrap Restaurant Template</title> -->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    {%load static%}
+    {%block css%}
+  <link href="{% static 'css/about.css'%}" rel="stylesheet">
+  {%endblock%}
+</head>
+
+<body>
+
+        {%block hero%}
+        <!--Hero start-->
+            <div class="container-xxl py-5 bg-dark hero-header mb-5" style="padding-bottom: 0 !important;">
+                <div class="container text-center my-5 pt-5 pb-4">
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">About Us</h1>
+                </div>
+            </div>
+        
+        {%endblock%}
+        <!-- Hero End -->
+        {%block about%}
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="row g-3">
+                            <div class="col-6 text-start">
+                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="{% static 'img/about-1.jpg' %}">
+                            </div>
+                            <div class="col-6 text-start">
+                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="{% static 'img/about-2.jpg'%}" style="margin-top: 25%;">
+                            </div>
+                            <div class="col-6 text-end">
+                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="{% static 'img/about-3.jpg'%}">
+                            </div>
+                            <div class="col-6 text-end">
+                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="{% static 'img/about-4.jpg'%}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
+                        <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i>Tnaul Restaurant</h1>
+                        <p class="mb-4">Certificate of 5-star restaurant with modern space, menu of more than 100 dishes from starters, main courses to desserts.</p>
+                        <p class="mb-4">With neutral organic ingredients and clean natural ingredients, creating Tnaul Restaurant formula absorbed from the customer's mind. Tnaul Reserved and 5-star chef dedicate themselves to creating high-quality dishes with the message worthy of "Delicious" food coming to you from Tnaul Restaurant.</p>
+                        <div class="row g-4 mb-4">
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                    <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">15</h1>
+                                    <div class="ps-4">
+                                        <p class="mb-0">Years of</p>
+                                        <h6 class="text-uppercase mb-0">Experience</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                    <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
+                                    <div class="ps-4">
+                                        <p class="mb-0">Popular</p>
+                                        <h6 class="text-uppercase mb-0">Master Chefs</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <a class="btn btn-primary py-3 px-5 mt-2" href="{%url 'product:about'%}">Read More</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endblock%}
+        {%block menu%}{%endblock%}
+        {%block reservation%}
+        <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s" style="margin-bottom: 1rem;">
+                <h4 class="section-title ff-secondary text-center text-primary fw-normal">Video about us</h4>
+            </div>
+            <div class="row g-0">
+                <!-- <div class="col-md-6"> -->
+                    <div class="video">
+                        <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
+                            <span></span>
+                        </button>
+                    </div>
+                <!-- </div> -->
+            </div>
+        </div>
+
+        <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        16:9 aspect ratio
+                        <div class="ratio ratio-16x9">
+                            <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
+                                allow="autoplay"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endblock%}
+        {%block testimonial%}{%endblock%}
+
+
+</body>
+
+</html>

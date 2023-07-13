@@ -1,0 +1,18 @@
+{%for cus in partner%}
+<div id="select-friend-{{order_id}}-{{cus.id}}">
+    <div style="    display: flex;
+    width: fit-content;
+    margin-right: 1rem;
+    border: rgba(0,0,0,0.125) 1px solid;
+    padding: 0.5rem;
+    border-radius: 1.5rem;
+">
+        <span style="margin-right: 0.5rem;">
+            {{cus.customer.full_name}}
+        </span>
+        <div onclick='removeFriend(`{{order_id}}`,`{{cus.id}}`)' style="cursor: pointer;">
+            <i class="fa-solid fa-xmark fa-lg"></i>
+        </div>
+    </div>
+</div>
+{%endfor%}

@@ -1,0 +1,40 @@
+<div class="container-xxl">
+    <div class="account-page">
+        <div class="header-main py-5">
+          <h1>Tnaul Restaurant</h1>
+        </div>
+        <div class="account-content text-center">
+          <h1 class="h2">
+            Almost there …
+          </h1>
+          <h2 class="h3">
+            Please check your email {{email}}
+            <br>
+            to confirm your account.
+          </h2>
+          <hr>
+          <div class="narrow">
+            <p>
+              If 
+              <strong>
+                {{email}}
+              </strong>
+              is not your email address, please 
+              <a href="{%url 'product:signup'%}">
+                go back
+              </a>
+              and enter the correct one.
+            </p>
+            <p>
+              If you haven't received our email in 15 minutes, please check your spam folder.
+            </p>
+            <div>
+              Still can't find it? Try searching Gmail for 
+              <q>
+                in:all subject:(Verify your email on Tnaul Restaurant)
+              </q>
+            </div>
+          </div>
+        </div>
+      </div>      
+</div>

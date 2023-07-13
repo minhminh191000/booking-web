@@ -1,0 +1,97 @@
+{%extends 'product/infor.html'%}
+{%load static%}
+{%block css%}
+<link href="{% static 'css/pay.css'%}" rel="stylesheet">
+<link href="{% static 'css/infor.css'%}" rel="stylesheet">
+{%endblock%}
+{%block section%}
+<section class="section-body">
+    <div>
+      <h4>Need pay</h4>
+      <div>
+        {%if need_pay%}
+        {%csrf_token%}
+        {%for bill in need_pay%}
+            <div class="need-pay" id="{{bill.id}}">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <span>Date time: {{bill.order_detail.order_date}}</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span>Money is paid: {{bill.paid}} vnđ</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span>No of people: {{bill.order_detail.table.person_per_table}}</span>
+                    </div>
+                    <div class="col-md-6">
+                        Need to pay: <span id="need-pay-{{bill.id}}">{{bill.must_pay}} vnđ</span>
+                    </div>
+                    <div style="display: flex; align-items: center;margin-top: 2rem;" >
+                        <span style="margin-right: 1rem;">Discount: </span>
+                        <div class="form-floating" style="width: 35%;">
+                            
+                            <select class="form-select shadow-none" id="select-{{bill.id}}" onchange="setBill(`{{bill.id}}`)" style="height: 2.8rem;padding: 0 0 0 1rem;">
+                                <option value=0 >No use</option>
+                                {%for discount in list_discount%}
+                                <option name="{{discount.id}}" value={{discount.sell_off}}>{{discount.name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="">
+                        Total: <span id="{{bill.id}}-total">{{bill.must_pay}} vnd</span>
+                    </div>
+                    <div style="display: flex; justify-content: end;">
+                        <button class="btn btn-primary shadow-none pay-confirm on-submit" onclick="submitPay(`{{bill.id}}`)" style="border-radius: 1rem;">Confirm pay</button>
+                    </div>
+                </div>
+            </div>
+        {%endfor%}
+        {%else%}
+            <div style="text-align: center; margin: 2rem 0;">
+                <strong>GREAT, you paid for all orders.</strong>
+            </div>
+        {%endif%}
+      </div>  
+    </div>
+    
+    <div>
+       <h4>History</h4>
+       <div>
+        {%if history%}
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Date time</th>
+                <th scope="col">Money</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+                {%for pay in history%}
+              <tr>
+                <td>{{pay.pay_date}}</td>
+                <td>{{pay.paid}} vnđ</td>
+                <td>Success</td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        {%else%}
+        <div style="display: flex;justify-content: center;margin: 2rem 0;">
+            <span class="material-symbols-outlined">
+                sentiment_dissatisfied
+                </span>
+            <strong>You don't have any transactions yet.</strong>
+        </div>
+        {%endif%}
+       </div> 
+    </div>
+    
+</section>
+{%endblock%}
+{%block js%}
+<script src="{% static 'js/pay.js' %}"></script>
+<script src="{% static 'js/signout.js' %}"></script>
+{%endblock%}

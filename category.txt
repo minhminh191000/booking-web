@@ -1,0 +1,12 @@
+{"name": "Biyani", "decription": "Biyani", "url_img": "https://i.ibb.co/W2dQfmM/Biyani.png", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Chicken", "decription": "Chicken", "url_img": "https://i.ibb.co/mTvt1Yy/Chicken.png", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Pizza", "decription": "Pizza", "url_img": "https://i.ibb.co/V9sP8sQ/Pizza.jpg", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Fried Rice", "decription": "Fried Rice", "url_img": "https://i.ibb.co/8011Lsz/Fried-Rice.jpg", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Thali", "decription": "Thali", "url_img": "https://i.ibb.co/LzXRJQj/Thali.jpg", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Rolls", "decription": "Rolls", "url_img": "https://i.ibb.co/9pJ0G8N/Rolls.png", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Burger", "decription": "Burger", "url_img": "https://i.ibb.co/TWvdPwq/Burger.png", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Cake", "decription": "Cake", "url_img": "https://i.ibb.co/b1HGrxT/Cake.png", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Paneer", "decription": "Paneer", "url_img": "https://i.ibb.co/wQww781/Paneer.png", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Chowmein", "decription": "Chowmein", "url_img": "https://i.ibb.co/2K4wsNb/Chowmein.jpg", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Dosa", "decription": "Dosa", "url_img": "https://i.ibb.co/pwnjQ77/Dosa.jpg", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
+{"name": "Momos", "decription": "Momos", "url_img": "https://i.ibb.co/2ZPGxxX/Momos.jpg", "status": true, "create_at": "2023-03-16 00:00:00+00:00", "update_at": "2023-03-16 00:00:00+00:00"}
