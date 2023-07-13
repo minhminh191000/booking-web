@@ -1,2 +1,2 @@
 # DATN
-Copyright: Pham Van Luan
+Copyright: Nguyễn Văn Minh
