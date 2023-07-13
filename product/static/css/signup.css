@@ -1,0 +1,347 @@
+.login-signup{
+    margin: auto;
+    width: fit-content;
+    display: flex ;
+}
+
+.form {
+    background-color: #fff;
+    display: block;
+    padding: 1rem;
+    max-width: 450px;
+    border-radius: 0 1rem 1rem 0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .form-title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    color: #000;
+    margin: 2rem 0;
+  }
+  
+  .input-container {
+    position: relative;
+  }
+  
+  .input-container input, .form button {
+    outline: none;
+    border: 1px solid #e5e7eb;
+    margin: 8px 0;
+  }
+  
+  .input-container input {
+    background-color: #fff;
+    padding: 1rem;
+    padding-right: 3rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    width: 400px;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .input-container span {
+    display: grid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    place-content: center;
+  }
+  
+  .input-container span svg {
+    color: #9CA3AF;
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+  }
+  
+  .submit {
+    display: block;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background-color: #4F46E5;
+    color: #ffffff;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    width: 100%;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .submit:disabled,
+.submit[disabled]{
+  background-color: #eb3131;
+  color: #ffffff;
+}
+  .forgot{
+    margin-top: 1.6rem;
+    text-align: right;
+  }
+  
+  .signup-link {
+    color: #6B7280;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    /* text-align: center; */
+  }
+  
+  .signup-link a {
+    text-decoration: underline;
+  }
+  .create-up{
+    margin-top: 1.6rem;
+  }
+
+.img-login img{
+  height: 100%;
+  border-radius: 1rem 0 0 1rem;
+}
+
+.errors{
+  color: red;
+  text-align: left;
+  margin: 0 20px;
+  font-size: 13px;
+}
+#signup-active{
+  color: #fea116 !important;
+}
+
+.success-checkmark {
+  /* -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px); */
+  height: fit-content;
+  width: 30%;
+  position: absolute;
+  left: 35%;
+  top: 30%;
+  z-index: 2;
+  background-color: #F1F8FF;
+  padding-top: 30px;
+  border-radius: 1.5rem;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+.success-checkmark .check-icon {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  border-radius: 50%;
+  box-sizing: content-box;
+  border: 4px solid #4caf50;
+  margin: auto;
+}
+.success-checkmark .check-icon::before {
+  top: 3px;
+  left: -2px;
+  width: 30px;
+  transform-origin: 100% 50%;
+  border-radius: 100px 0 0 100px;
+}
+.success-checkmark .check-icon::after {
+  top: 0;
+  left: 30px;
+  width: 60px;
+  transform-origin: 0 50%;
+  border-radius: 0 100px 100px 0;
+  animation: rotate-circle 4.25s ease-in;
+}
+.success-checkmark .check-icon::before, .success-checkmark .check-icon::after {
+  content: "";
+  height: 100px;
+  position: absolute;
+  /* background: #fff; */
+  transform: rotate(-45deg);
+}
+.success-checkmark .check-icon .icon-line {
+  height: 5px;
+  background-color: #4caf50;
+  display: block;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 10;
+}
+.success-checkmark .check-icon .icon-line.line-tip {
+  top: 46px;
+  left: 14px;
+  width: 25px;
+  transform: rotate(45deg);
+  animation: icon-line-tip 0.75s;
+}
+.success-checkmark .check-icon .icon-line.line-long {
+  top: 38px;
+  right: 8px;
+  width: 47px;
+  transform: rotate(-45deg);
+  animation: icon-line-long 0.75s;
+}
+.success-checkmark .check-icon .icon-circle {
+  top: -4px;
+  left: -4px;
+  z-index: 10;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: absolute;
+  box-sizing: content-box;
+  border: 4px solid rgba(76, 175, 80, 0.5);
+}
+.success-checkmark .check-icon .icon-fix {
+  top: 8px;
+  width: 5px;
+  left: 26px;
+  z-index: 1;
+  height: 85px;
+  position: absolute;
+  transform: rotate(-45deg);
+  /* background-color: #fff; */
+}
+@keyframes rotate-circle {
+  0% {
+    transform: rotate(-45deg);
+ }
+  5% {
+    transform: rotate(-45deg);
+ }
+  12% {
+    transform: rotate(-405deg);
+ }
+  100% {
+    transform: rotate(-405deg);
+ }
+}
+@keyframes icon-line-tip {
+  0% {
+    width: 0;
+    left: 1px;
+    top: 19px;
+ }
+  54% {
+    width: 0;
+    left: 1px;
+    top: 19px;
+ }
+  70% {
+    width: 50px;
+    left: -8px;
+    top: 37px;
+ }
+  84% {
+    width: 17px;
+    left: 21px;
+    top: 48px;
+ }
+  100% {
+    width: 25px;
+    left: 14px;
+    top: 45px;
+ }
+}
+@keyframes icon-line-long {
+  0% {
+    width: 0;
+    right: 46px;
+    top: 54px;
+ }
+  65% {
+    width: 0;
+    right: 46px;
+    top: 54px;
+ }
+  84% {
+    width: 55px;
+    right: 0px;
+    top: 35px;
+ }
+  100% {
+    width: 47px;
+    right: 8px;
+    top: 38px;
+ }
+}
+
+
+
+h1 { 
+  font-size:  36px; 
+  margin:   0 0 30px 0; 
+  line-height:  1.2; 
+  font-weight:  300;
+  color: #79589F;
+} 
+
+.h2 { 
+  font-size: 30px; 
+  color: #79589F;
+} 
+
+
+
+h2 { 
+  margin:  0 0 30px 0; 
+  line-height:  1.2; 
+  font-weight:  300;
+  font-size: 30px; 
+  color: #79589F;
+} 
+
+.h3 { 
+  font-size: 24px; 
+  color: #79589F;
+} 
+
+
+.account-content .h3  { 
+  font-size: 16px;
+} 
+
+hr { 
+  -moz-box-sizing:  content-box; 
+  box-sizing:  content-box; 
+  height:  1px; 
+  margin: 2em 0; 
+  border: 0; 
+  background-color: rgba(228,228,231,0); 
+  background-image: -webkit-linear-gradient(left, rgba(228,228,231,0), rgba(228,228,231,0.9) 10%, rgba(228,228,231,0.9) 90%, rgba(228,228,231,0)); 
+  background-image: linear-gradient(to right, rgba(228,228,231,0), rgb(15 15 236 / 90%) 10%, rgb(0 0 255 / 90%) 90%, rgba(228,228,231,0));
+} 
+
+.account-content hr  { 
+  opacity: .3;
+} 
+
+.account-content .narrow  { 
+  max-width: 340px; 
+  margin-left: auto; 
+  margin-right: auto;
+} 
+
+p { 
+  margin: 0; 
+  margin-bottom: 30px;
+} 
+
+strong { 
+  font-weight: 700;
+} 
+
+.account-content a:not(.btn)  { 
+  color: #afa0bf; 
+  text-decoration: underline;
+} 
+
+.account-content a:not(.btn):hover  { 
+  color: white;
+} 

@@ -1,0 +1,264 @@
+{%for order in ordered%}    
+<form id="{{order.id}}" onsubmit="handleSubmit(event,`{{order.id}}`,`{{order.customer.id}}`)" style="background: rgb(0 0 0 / 4%);
+border-radius: 2rem;
+margin-bottom: 3rem;
+padding: 2rem;">               
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="input-group-custom date" id="date-{{order.id}}" data-target-input="nearest">
+                <input required type="text" id="date-input-{{order.id}}" class="input-custom datetimepicker-input"
+                    data-target="#date-{{order.id}}" placeholder=" " data-toggle="datetimepicker"
+                    value="{{ list_date|get_item:order.id }}">
+                <label for="date-input-{{order.id}}" class="user-label">Date & Time</label>
+            </div>
+            
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating" style="width: 90%;">
+                <select class="form-select shadow-none" sty id="select-{{order.id}}" onchange="changeFriend(`{{order.id}}`)">
+                    <option value="1" {% if order.table.person_per_table == 1 %}selected{% endif %}>One
+                        person</option>
+                    <option value="2" {% if order.table.person_per_table == 2 %}selected{% endif %}>Two
+                        people</option>
+                    <option value="3" {% if order.table.person_per_table == 3 %}selected{% endif %}>
+                        Three people</option>
+                </select>
+                <label for="select-{{order.id}}">No Of People</label>
+            </div>
+        </div>
+        <div class="col-md-12" style="display: flex;">
+            <div class="col-md-6">
+                <div class="book-search-food " style="width: 88%;">
+                    <div class="XcXJs">
+                        <div class="gAhmYY heEtWs">
+                            <div class="kQJefP" id="search-partner-{{order.id}}" name="{%url 'product:find-partner'%}" onclick="getPartner(`{{order.id}}`)">
+                                <i class="iFnyeo">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#828282" width="18"
+                                        height="18" viewBox="0 0 20 20"
+                                        aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                                        class="sc-rbbb40-0 iwHbVQ">
+                                        <title>
+                                            Search
+                                        </title>
+                                        <path
+                                            d="M19.78 19.12l-3.88-3.9c1.28-1.6 2.080-3.6 2.080-5.8 0-5-3.98-9-8.98-9s-9 4-9 9c0 5 4 9 9 9 2.2 0 4.2-0.8 5.8-2.1l3.88 3.9c0.1 0.1 0.3 0.2 0.5 0.2s0.4-0.1 0.5-0.2c0.4-0.3 0.4-0.8 0.1-1.1zM1.5 9.42c0-4.1 3.4-7.5 7.5-7.5s7.48 3.4 7.48 7.5-3.38 7.5-7.48 7.5c-4.1 0-7.5-3.4-7.5-7.5z">
+                                        </path>
+                                    </svg>
+                                </i>
+                            </div>
+                            <input placeholder="Add your friend(email/phone)..." class="gLpOXO" id="input-partner-{{order.id}}" type="text" oninput="searchPartner(`{{order.id}}`)">
+                            <div class="hFiyMD">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="partner-filter-{{order.id}}" class="food-filter dropdown-menu bottom">
+                    <ul id="list-partner-filter-{{order.id}}">
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6" id="partner-selected-{{order.id}}" style="display: flex;
+            justify-content: center;
+            align-content: center;
+            flex-wrap: wrap;">
+                {{ list_partner|get_item:order.id }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="book-search-food " style="width: 90%;">
+                <div class="XcXJs">
+                    <div class="gAhmYY heEtWs">
+                        <div class="kQJefP" url="{%url 'product:booking'%}" id="search-food-{{order.id}}" onclick="get_data(`{{order.id}}`)">
+                            <i class="iFnyeo">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#828282" width="18"
+                                    height="18" viewBox="0 0 20 20"
+                                    aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                                    class="sc-rbbb40-0 iwHbVQ">
+                                    <title>
+                                        Search
+                                    </title>
+                                    <path
+                                        d="M19.78 19.12l-3.88-3.9c1.28-1.6 2.080-3.6 2.080-5.8 0-5-3.98-9-8.98-9s-9 4-9 9c0 5 4 9 9 9 2.2 0 4.2-0.8 5.8-2.1l3.88 3.9c0.1 0.1 0.3 0.2 0.5 0.2s0.4-0.1 0.5-0.2c0.4-0.3 0.4-0.8 0.1-1.1zM1.5 9.42c0-4.1 3.4-7.5 7.5-7.5s7.48 3.4 7.48 7.5-3.38 7.5-7.48 7.5c-4.1 0-7.5-3.4-7.5-7.5z">
+                                    </path>
+                                </svg>
+                            </i>
+                        </div>
+                        <input oninput="get_data(`{{order.id}}`)" placeholder="Search your food..." class="gLpOXO" id="input-booking-{{order.id}}"
+                            type="text">
+                        <div class="hFiyMD">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="food-filter-{{order.id}}" class="food-filter dropdown-menu bottom">
+                <ul id="list-food-filter-{{order.id}}">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="margin: 1rem 0;">
+        <h5 style="padding-left: 1rem;">Food order</h5>
+        <ul id="selected-food-{{order.id}}" class="selected-food">
+            {{ list_context|get_item:order.id }}
+        </ul>
+    </div>
+    {%if order.order_set.all %}
+    <div class="col-12 total-money money-{{ordered.id}}">
+        <div class="">
+            <strong>Total money: </strong>
+            <span id="total-money-{{order.id}}">{{order.total_bill}} vnđ</span>
+        </div>
+    </div>
+    {%else%}
+    <div hidden class="col-12 total-money money-{{ordered.id}}">
+        <div class="">
+            <strong>Total money: </strong>
+            <span id="total-money-{{order.id}}"></span>
+        </div>
+    </div>
+    {%endif%}
+    <div class="col-12">
+        <div class="form-floating">
+            <textarea class="form-control shadow-none" placeholder="Special Request" id="request-input-{{order.id}}"
+                style="height: 150px"></textarea>
+            <label for="request-input-{{order.id}}">Special Request</label>
+        </div>
+    </div>
+    <div class="modal-footer" style="margin-top: 1rem;">
+        <button id="cancel-booking-{{order.id}}" onclick="cancel_order(event,`{{order.id}}`,`{{order.customer.id}}`)" value="{%url 'product:cancel-booking'%}" class="btn btn-secondary shadow-none on-submit">Cancel booking</button>
+        <button type="submit" class="btn btn-primary shadow-none on-submit">Update now</button>
+    </div>
+</form>
+{%endfor%} 
+{%for order in order_invite %}    
+<form id="{{order.id}}" onsubmit="handleSubmit(event,`{{order.id}}`,`{{order.customer.id}}`)" style="background: rgb(0 0 0 / 4%);
+border-radius: 2rem;
+margin-bottom: 3rem;
+padding: 2rem;">               
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="input-group-custom date" id="date-{{order.id}}" data-target-input="nearest">
+                <input required type="text" id="date-input-{{order.id}}" class="input-custom datetimepicker-input"
+                    data-target="#date-{{order.id}}" placeholder=" " data-toggle="datetimepicker"
+                    value="{{ list_date|get_item:order.id }}">
+                <label for="date-input-{{order.id}}" class="user-label">Date & Time</label>
+            </div>
+            
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating" style="width: 90%;">
+                <select class="form-select shadow-none" sty id="select-{{order.id}}" onchange="changeFriend(`{{order.id}}`)">
+                    <option value="1" {% if order.table.person_per_table == 1 %}selected{% endif %}>One
+                        person</option>
+                    <option value="2" {% if order.table.person_per_table == 2 %}selected{% endif %}>Two
+                        people</option>
+                    <option value="3" {% if order.table.person_per_table == 3 %}selected{% endif %}>
+                        Three people</option>
+                </select>
+                <label for="select-{{order.id}}">No Of People</label>
+            </div>
+        </div>
+        <div class="col-md-12" style="display: flex;">
+            <div class="col-md-6">
+                <div class="book-search-food " style="width: 88%;">
+                    <div class="XcXJs">
+                        <div class="gAhmYY heEtWs">
+                            <div class="kQJefP" id="search-partner-{{order.id}}" name="{%url 'product:find-partner'%}" onclick="getPartner(`{{order.id}}`)">
+                                <i class="iFnyeo">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#828282" width="18"
+                                        height="18" viewBox="0 0 20 20"
+                                        aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                                        class="sc-rbbb40-0 iwHbVQ">
+                                        <title>
+                                            Search
+                                        </title>
+                                        <path
+                                            d="M19.78 19.12l-3.88-3.9c1.28-1.6 2.080-3.6 2.080-5.8 0-5-3.98-9-8.98-9s-9 4-9 9c0 5 4 9 9 9 2.2 0 4.2-0.8 5.8-2.1l3.88 3.9c0.1 0.1 0.3 0.2 0.5 0.2s0.4-0.1 0.5-0.2c0.4-0.3 0.4-0.8 0.1-1.1zM1.5 9.42c0-4.1 3.4-7.5 7.5-7.5s7.48 3.4 7.48 7.5-3.38 7.5-7.48 7.5c-4.1 0-7.5-3.4-7.5-7.5z">
+                                        </path>
+                                    </svg>
+                                </i>
+                            </div>
+                            <input placeholder="Add your friend(email/phone)..." class="gLpOXO" id="input-partner-{{order.id}}" type="text" oninput="searchPartner(`{{order.id}}`)">
+                            <div class="hFiyMD">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="partner-filter-{{order.id}}" class="food-filter dropdown-menu bottom">
+                    <ul id="list-partner-filter-{{order.id}}">
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6" id="partner-selected-{{order.id}}" style="display: flex;
+            justify-content: center;
+            align-content: center;
+            flex-wrap: wrap;">
+                {{ list_partner|get_item:order.id }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="book-search-food " style="width: 90%;">
+                <div class="XcXJs">
+                    <div class="gAhmYY heEtWs">
+                        <div class="kQJefP" url="{%url 'product:booking'%}" id="search-food-{{order.id}}" onclick="get_data(`{{order.id}}`)">
+                            <i class="iFnyeo">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#828282" width="18"
+                                    height="18" viewBox="0 0 20 20"
+                                    aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                                    class="sc-rbbb40-0 iwHbVQ">
+                                    <title>
+                                        Search
+                                    </title>
+                                    <path
+                                        d="M19.78 19.12l-3.88-3.9c1.28-1.6 2.080-3.6 2.080-5.8 0-5-3.98-9-8.98-9s-9 4-9 9c0 5 4 9 9 9 2.2 0 4.2-0.8 5.8-2.1l3.88 3.9c0.1 0.1 0.3 0.2 0.5 0.2s0.4-0.1 0.5-0.2c0.4-0.3 0.4-0.8 0.1-1.1zM1.5 9.42c0-4.1 3.4-7.5 7.5-7.5s7.48 3.4 7.48 7.5-3.38 7.5-7.48 7.5c-4.1 0-7.5-3.4-7.5-7.5z">
+                                    </path>
+                                </svg>
+                            </i>
+                        </div>
+                        <input oninput="get_data(`{{order.id}}`)" placeholder="Search your food..." class="gLpOXO" id="input-booking-{{order.id}}"
+                            type="text">
+                        <div class="hFiyMD">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="food-filter-{{order.id}}" class="food-filter dropdown-menu bottom">
+                <ul id="list-food-filter-{{order.id}}">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="margin: 1rem 0;">
+        <h5 style="padding-left: 1rem;">Food order</h5>
+        <ul id="selected-food-{{order.id}}" class="selected-food">
+            {{ list_context|get_item:order.id }}
+        </ul>
+    </div>
+    {%if order.order_set.all %}
+    <div class="col-12 total-money money-{{ordered.id}}">
+        <div class="">
+            <strong>Total money: </strong>
+            <span id="total-money-{{order.id}}">{{order.total_bill}} vnđ</span>
+        </div>
+    </div>
+    {%else%}
+    <div hidden class="col-12 total-money money-{{ordered.id}}">
+        <div class="">
+            <strong>Total money: </strong>
+            <span id="total-money-{{order.id}}"></span>
+        </div>
+    </div>
+    {%endif%}
+    <div class="col-12">
+        <div class="form-floating">
+            <textarea class="form-control shadow-none" placeholder="Special Request" id="request-input-{{order.id}}"
+                style="height: 150px"></textarea>
+            <label for="request-input-{{order.id}}">Special Request</label>
+        </div>
+    </div>
+    <div class="modal-footer" style="margin-top: 1rem;">
+        <button id="cancel-booking-{{order.id}}" onclick="cancel_order(event,`{{order.id}}`,`{{order.customer.id}}`)" value="{%url 'product:cancel-booking'%}" class="btn btn-secondary shadow-none on-submit">Cancel booking</button>
+        <button type="submit" class="btn btn-primary shadow-none on-submit">Update now</button>
+    </div>
+</form>
+{%endfor%} 

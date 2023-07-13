@@ -1,0 +1,28 @@
+.select-profile{
+    font-weight: 900;
+  }
+  .input-custom:focus~label,
+  .input-custom:not(:placeholder-shown) ~ label
+  /* ,.input-custom:valid~label*/ {
+    transform: translateY(-50%) scale(0.8);
+    background-color: #F1F8FF;
+    padding: 0 .2em;
+    color: #2196f3;
+  }
+  .input-group-custom span {
+    display: grid;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 70px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    place-content: center;
+  }
+  
+  .input-group-custom span svg {
+    color: #9CA3AF;
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+  }

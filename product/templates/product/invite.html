@@ -1,0 +1,13 @@
+{%if invites%}
+<div class="container list-invite wow fadeInUp">
+    {%for invite in invites%}
+    <div style="display: flex; padding: 1rem; background-color: rgba(0,0,0,4%);border-radius: 1rem; width: fit-content; align-items: center;margin-left: 1rem;margin-bottom: 1rem;">
+        <span style="margin-right: 2rem;">{{invite.order_detail.customer.customer.full_name}} invites you to eat with him/her at our restaurant at {{invite.time_invite}}</span>
+        <div style="margin-right: 1rem;">
+            <button class="btn btn-secondary shadow-none" style="border-radius: 1rem; margin-right: 1rem;" onclick="confirmInvite(`{{invite.id}}`,'false',`{%url 'product:accept-invite'%}`)">REJECT</button>
+            <button class="btn btn-primary shadow-none" style="border-radius: 1rem;" onclick="confirmInvite(`{{invite.id}}`,'true',`{%url 'product:accept-invite'%}`)">ACCEPT</button>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+{%endif%}

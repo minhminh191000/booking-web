@@ -1,0 +1,586 @@
+{% extends "product/index.html" %}
+
+  {%load static%}
+  {%block css%}
+  <link href="{% static 'css/menu.css'%}" rel="stylesheet">
+  {%endblock%}
+
+
+  <!--Hero End -->
+  {%block hero%}
+  <div class="container-xxl py-5 bg-dark hero-header mb-5 hero" style="padding-bottom: 0 !important;">
+    <div class="container text-center my-5 pb-4" style="padding-top: 7.5rem !important;">
+      <h1 class="display-3 text-white mb-3 animated slideInDown">Food Menu</h1>
+    </div>
+  </div>
+  {%endblock%}
+  <!--Hero End -->
+
+  {%block main%}
+
+  <!-- Button trigger modal -->
+  <button hidden id="mess_log" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mess_log_modal">
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="mess_log_modal" tabindex="-1" aria-labelledby="labelMess" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered text-center" style="max-width: 700px;">
+          <div class="modal-content" style="width: 600px; background-color: #F1F8FF;
+                                      margin: auto;
+                                      border: none;
+                                      height: fit-content;
+                                      border-radius: 10px;">
+              <div class="modal-header" style="height: 60px;font-size: 2rem;">
+                  <h3 class="modal-title" id="labelMess" style="font-size: 2rem;">Message</h3>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div id="mess_text" class="modal-body" style="font-size: 3.5rem; line-height: 66px;">
+                  <div hidden id="mess_icon_success" class="success-checkmark">
+                      <div  class="check-icon">
+                          <span class="icon-line line-tip"></span>
+                          <span class="icon-line line-long"></span>
+                          <div class="icon-circle"></div>
+                          <div class="icon-fix"></div>
+                      </div>
+                  </div>
+                  <div hidden id="mess_icon_fail" style="color: red;">
+                      <i class="fa-sharp fa-regular fa-circle-xmark fa-xl"></i>
+                  </div>
+
+
+                  <p id="mess-log-order" style="font-size: 2.5rem;"></p>   
+              </div>
+              <div class="modal-footer" style="height: 70px;">
+                  <button id="btn_confirm_mess" type="button" class="btn btn-primary shadow-none" data-bs-dismiss="modal" style="font-size: 1.7rem;width: 80px;
+              border-radius: 10px;
+              margin-right: 15px;">OK</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Button trigger modal -->
+  <button hidden id="add_log" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_log_modal">
+  </button>
+  <!-- Modal -->
+  <div class="modal fade" id="add_log_modal" tabindex="-1" aria-labelledby="labelAdd" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered text-center" style="max-width: 700px;">
+          <div class="modal-content" style=" background-color: #F1F8FF;
+                                      margin: auto;
+                                      border: none;
+                                      height: fit-content;
+                                      border-radius: 10px;">
+              <div class="modal-header" style="height: 60px;">
+                  <h3 class="modal-title" style="font-size: 3rem;" id="labelAdd">Add to table</h3>
+                  <button id="close-add" type="button" style="font-size: 2rem;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div id="add-body" class="modal-body" style="font-size: 2.5rem; line-height: 66px;">
+                   <div class="selected-food">
+                      <div>
+                        <img id="food_add_url" src="" alt="">
+                      </div>
+                      <div id="food_add_name" style="justify-content: flex-start;width: max-content;"></div>
+                      <div id="food_add_price"></div>
+                      <div>
+                          <button type='button' onclick="subQuantity()">-</button>
+                          <div id='food_add_quantity' class="count">1</div>
+                          <button type='button' onclick="addQuantity()">+</button>
+                      </div>
+                   </div>
+                   <div style="display: flex; align-items: center;margin-top: 2rem;padding-left: 2.5rem;" >
+                    <span style="margin-right: 1rem;font-size: 2rem;">Table ordered: </span>
+                    <div class="form-floating" style="width: 50%;">
+                        
+                        <select class="form-select shadow-none" id="select-ordered" style="height: 4.5rem;padding: 0 0 0 1rem; border-radius: 1rem; border: none;font-size: 1.7rem;">
+                            {%for order in ordered%}
+                              <option value="{{order.id}}">{{order.order_date}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer" style="height: 70px;">
+                  <button id="btn_confirm_add" type="button" url="{%url 'product:add-food-to-order'%}" class="btn btn-primary shadow-none on-submit" onclick="submitAdd()" style="font-size: 1.7rem;width: 80px;
+              border-radius: 10px;
+              margin-right: 15px;">Add</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!--Category start-->
+  <div class="container-xxl py-5">
+    <div class="sc-1mo3ldo-0 fihUGr snipcss-TSvH9 animated slideInDown">
+      <h3 color="#1C1C1C" class="sc-1sv4741-0 sc-goFBvh bYSFBA">
+        Inspiration for your first order
+      </h3>
+      <section tabindex="0" aria-roledescription="carousel" class="sc-w2q7gn-0 jrsdDz">
+        <section class="sc-w2q7gn-4 dpmxcg">
+          <section class="sc-w2q7gn-3 hgXdgh">
+            <section aria-live="polite" class="sc-w2q7gn-2 hPvZbq" id="polite">
+              {%for cate in list_category%}
+              <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                <div id="style-bAEdB" class="style-bAEdB">
+                  <div class="cate-tracker" onclick="filter_categories(`{{cate.id}}`,`{{cate.name}}`)">
+                    <div class="sc-emjYpo leeiMH">
+                      <div class="sc-hhaNoI kooiaY">
+                        <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                          <div src="" class="sc-s1isp7-3 cVOEqG">
+                          </div>
+                          <img alt="image" src={{cate.url_img}} loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                        </div>
+                      </div>
+                      <div class="sc-iKiVwC kzBTal">
+                        <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                          {{cate.name}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              {%endfor%}
+              <!-- <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-ICOeU" class="style-ICOeU">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/o2_assets/d0bd7c9405ac87f6aa65e31fe55800941632716575.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=68987&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Pizza
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-J2HBL" class="style-J2HBL">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/dish_images/197987b7ebcd1ee08f8c25ea4e77e20f1634731334.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=55280&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Chicken
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-DL81v" class="style-DL81v">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/dish_images/c2f22c42f7ba90d81440a88449f4e5891634806087.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=56691&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Rolls
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-sJNfx" class="style-sJNfx">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/dish_images/ccb7dc2ba2b054419f805da7f05704471634886169.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=9055&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Burger
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-hSPyd" class="style-hSPyd">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/o2_assets/8dc39742916ddc369ebeb91928391b931632716660.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=10296&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Dosa
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-tDmZ3" class="style-tDmZ3">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/dish_images/91c554bcbbab049353a8808fc970e3b31615960315.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=19315&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Noodles
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-5CNhd" class="style-5CNhd">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/o2_assets/e444ade83eb22360b6ca79e6e777955f1632716661.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=35301&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Fried Rice
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-czS8E" class="style-czS8E">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 cVOEqG">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/dish_images/d5ab931c8c239271de45e1c159af94311634805744.png" loading="lazy" class="sc-s1isp7-5 fyZwWD">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=39212&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Cake
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-sPH7s" class="style-sPH7s">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 dqJnoA">
+                              </div>
+                              <img alt="image" src="https://b.zmtcdn.com/data/o2_assets/52eb9796bb9bcf0eba64c643349e97211634401116.png" loading="lazy" class="sc-s1isp7-5 cqxheR">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=35013&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Thali
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-v6ZAn" class="style-v6ZAn">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 dqJnoA">
+                              </div>
+                              <img alt="image" src="https://www.zomato.com/vi/kolkata/delivery" loading="lazy" class="sc-s1isp7-5 cqxheR">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=58693&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Ice Cream
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <section class="sc-w2q7gn-1 bFDEYm carousel-content" aria-roledescription="slide" height="auto">
+                    <div id="style-bIzmP" class="style-bIzmP">
+                      <div class="jumbo-tracker">
+                        <div class="sc-emjYpo leeiMH">
+                          <div class="sc-hhaNoI kooiaY">
+                            <div height="19rem" width="100%" class="sc-s1isp7-1 iKCjcq sc-guDjWT ejdMFX">
+                              <div src="" class="sc-s1isp7-3 dqJnoA">
+                              </div>
+                              <img alt="image" src="https://www.zomato.com/vi/kolkata/delivery" loading="lazy" class="sc-s1isp7-5 cqxheR">
+                            </div>
+                          </div>
+                          <a href="/kolkata/restaurants?place_name=Kolkata&amp;dishv2_id=12025&amp;category=1" class="sc-iKiVwC kzBTal">
+                            <p class="sc-1hez2tp-0 sc-gneEKw gWSrvD">
+                              Paratha
+                            </p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </section> -->
+            </section>
+          </section>
+          <div class="sc-1krzjx0-0 eaHZVF carousel-arrow" default="">
+            <section tabindex="0" role="button" aria-controls="carousel-items" aria-label="Previous Slide"
+              class="sc-1krzjx0-2 iBfEVA" id="pre" hidden>
+            </section>
+          </div>
+          <div class="sc-1krzjx0-0 UxzDv carousel-arrow" default="">
+            <section tabindex="0" role="button" aria-controls="carousel-items" aria-label="Next Slide"
+              class="sc-1krzjx0-2 bPeSFW" id="next">
+            </section>
+          </div>
+        </section>
+      </section>
+    </div>
+  </div>
+  <!--Category end-->
+  
+  <!--filter start-->
+  <div class="container-xxl py-5" style="padding: 0 100px !important;">
+    <div height="4156.25px" class="fIVbKv animated slideInDown">
+      <div class="filter-one">
+        <div class="sc-cgHJcJ iaXrZR" >
+          <div tabindex="0" id="cate-filter" class="sc-bNQFlB ffYqxz XXsnipcss_extracted_selector_selectionXX snipcss0-0-0-1 tether-target-attached-top tether-element-attached-top tether-element-attached-center tether-target-attached-center">
+            <span id="cate-name">All food</span>
+            <div class="sc-eNPDpu ikjyjJ snipcss0-1-1-2">
+              <i class="sc-rbbb40-1 iFnyeo snipcss0-2-2-3" size="18" id="cate-cancel"
+                color="#FFFFFF"><svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="18" height="18"
+                  viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                  class="sc-rbbb40-0 iwHbVQ snipcss0-3-3-4">
+                  <title class="snipcss0-4-4-5">cross</title>
+                  <path
+                    d="M11.42 10.42l3.54-3.54c0.38-0.4 0.38-1.040 0-1.42s-1.020-0.4-1.42 0l-3.54 3.54-3.54-3.54c-0.4-0.4-1.020-0.4-1.42 0s-0.38 1.020 0 1.42l3.54 3.54-3.54 3.54c-0.38 0.38-0.38 1.020 0 1.42 0.2 0.18 0.46 0.28 0.72 0.28s0.5-0.1 0.7-0.28l3.54-3.56 3.54 3.56c0.2 0.18 0.46 0.28 0.72 0.28s0.5-0.1 0.7-0.28c0.38-0.4 0.38-1.040 0-1.42l-3.54-3.54z">
+                  </path>
+                </svg>
+              </i>
+            </div>
+            <!-- <span class="material-symbols-outlined">
+              filter_list
+            </span> -->
+          </div>
+          
+        </div>
+        <div class="sc-cgHJcJ iaXrZR">
+          <div tabindex="0" id ="rate-color"
+            class="sc-bNQFlB ffYqxz XXsnipcss_extracted_selector_selectionXX snipcss0-0-0-1 tether-target-attached-top tether-element-attached-top tether-element-attached-center tether-target-attached-center">
+            <span id="rate-filter">Rating: 4.0+</span>
+            <div class="sc-eNPDpu ikjyjJ snipcss0-1-1-2">
+              <i class="sc-rbbb40-1 iFnyeo snipcss0-2-2-3" size="18" id="rate-cancel"
+                color="#FFFFFF">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="18" height="18"
+                  viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                  class="sc-rbbb40-0 iwHbVQ snipcss0-3-3-4">
+                  <title class="snipcss0-4-4-5">cross</title>
+                  <path
+                    d="M11.42 10.42l3.54-3.54c0.38-0.4 0.38-1.040 0-1.42s-1.020-0.4-1.42 0l-3.54 3.54-3.54-3.54c-0.4-0.4-1.020-0.4-1.42 0s-0.38 1.020 0 1.42l3.54 3.54-3.54 3.54c-0.38 0.38-0.38 1.020 0 1.42 0.2 0.18 0.46 0.28 0.72 0.28s0.5-0.1 0.7-0.28l3.54-3.56 3.54 3.56c0.2 0.18 0.46 0.28 0.72 0.28s0.5-0.1 0.7-0.28c0.38-0.4 0.38-1.040 0-1.42l-3.54-3.54z">
+                  </path>
+                </svg></i></div>
+                <span id ="sorted-rate" class="material-symbols-outlined">
+                  sort
+                </span>
+          </div>
+        </div>
+        <div class="sc-cgHJcJ iaXrZR">
+          <div tabindex="0"
+            class="sc-bNQFlB ffYqxz XXsnipcss_extracted_selector_selectionXX snipcss0-0-0-1 tether-target-attached-top tether-element-attached-top tether-element-attached-center tether-target-attached-center">
+            <span>Price</span>
+            <div class="sc-eNPDpu ikjyjJ snipcss0-1-1-2" >
+              <!-- <i class="sc-rbbb40-1 iFnyeo snipcss0-2-2-3" size="18"
+                color="#FFFFFF"><svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="18" height="18"
+                  viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                  class="sc-rbbb40-0 iwHbVQ snipcss0-3-3-4">
+                  <title class="snipcss0-4-4-5">cross</title>
+                  <path
+                    d="M11.42 10.42l3.54-3.54c0.38-0.4 0.38-1.040 0-1.42s-1.020-0.4-1.42 0l-3.54 3.54-3.54-3.54c-0.4-0.4-1.020-0.4-1.42 0s-0.38 1.020 0 1.42l3.54 3.54-3.54 3.54c-0.38 0.38-0.38 1.020 0 1.42 0.2 0.18 0.46 0.28 0.72 0.28s0.5-0.1 0.7-0.28l3.54-3.56 3.54 3.56c0.2 0.18 0.46 0.28 0.72 0.28s0.5-0.1 0.7-0.28c0.38-0.4 0.38-1.040 0-1.42l-3.54-3.54z">
+                  </path>
+                </svg></i> -->
+              </div>
+                <span id="sorted-price" class="material-symbols-outlined">
+                  sort  
+                </span>
+          </div>
+        </div>
+        
+      </div>
+      <div class="">
+        <div class="XcXJs">
+        <div class="gAhmYY heEtWs">
+          <div class="kQJefP" id="search-food">
+            <i class="iFnyeo">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="#828282" width="18" height="18" viewBox="0 0 20 20"
+                aria-labelledby="icon-svg-title- icon-svg-desc-" role="img" class="sc-rbbb40-0 iwHbVQ">
+                <title>
+                  Search
+                </title>
+                <path
+                  d="M19.78 19.12l-3.88-3.9c1.28-1.6 2.080-3.6 2.080-5.8 0-5-3.98-9-8.98-9s-9 4-9 9c0 5 4 9 9 9 2.2 0 4.2-0.8 5.8-2.1l3.88 3.9c0.1 0.1 0.3 0.2 0.5 0.2s0.4-0.1 0.5-0.2c0.4-0.3 0.4-0.8 0.1-1.1zM1.5 9.42c0-4.1 3.4-7.5 7.5-7.5s7.48 3.4 7.48 7.5-3.38 7.5-7.48 7.5c-4.1 0-7.5-3.4-7.5-7.5z">
+                </path>
+              </svg>
+            </i>
+          </div>
+          <input placeholder="Search your food..." class="gLpOXO" id="input-food" type="text">
+          <div class="hFiyMD">
+          </div>
+        </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+  <!--filter end-->
+
+
+
+  <!-- Menu Start -->
+  <div class="container-xxl py-5">
+          <div id="spinner-menu" class="align-items-center justify-content-center" style="display: none;">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+
+      <div class="pro-flex">
+        {% csrf_token %}
+        {%for product in list_product%}
+        <div class="jumbo-tracker">
+          <div class="sc-jOBXIr iigXav">
+            <a href="{%url 'product:food' product.id%}" class="sc-jGFFOr issSuS">
+              <div class="sc-fUdGnz fxTcQL">
+                <div class="sc-fATqzn dqYBLy">
+                  Promoted
+                </div>
+              </div>
+              <div height="24.8rem" width="100%" class="sc-s1isp7-1 jtuXep sc-gjAXCV hyIdyQ">
+                <div src="" class="sc-s1isp7-3 cVOEqG">
+                </div>
+                <img alt="Restaurant Card" src={{product.url_img}} loading="lazy" class="sc-s1isp7-5 fyZwWD">
+              </div>
+              <!-- <div class="sc-kWHCRG fsyWWq">
+                <p class="sc-1hez2tp-0 sc-AUpyg uaXHC">
+                  50% OFF up to 100
+                </p>
+              </div> -->
+              <!-- <p class="sc-1hez2tp-0 sc-SFOxd fSfslg">
+                              28 min
+                            </p> -->
+            </a>
+            <a href="{%url 'product:food' product.id%}" class="sc-eAudoH LbQMm">
+              <div class="sc-bQmweE jKFBGV">
+                <h4 class="sc-1hp8d8a-0 sc-faQXZc bfqpTs">
+                  {{product.name}}
+                </h4>
+                <div class="sc-bvODop cDBaIT">
+                  <div class="sc-1q7bklc-5 kHxpSk">
+                    <div color="#24963F" height="2rem" width="2.6rem" font-size="1.3rem" class="sc-1q7bklc-10 kgIEjH">
+                      <div class="sc-1q7bklc-6 liCXOR">
+                        <div class="sc-1q7bklc-5 kHxpSk">
+                          <div class="sc-1q7bklc-1 cILgox">
+                            {{product.rate}}
+                          </div>
+                          <div class="sc-1q7bklc-2 pxJGx">
+                            <i class="sc-rbbb40-1 iFnyeo" color="#FFFFFF">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="0.8rem" height="0.8rem"
+                                viewBox="0 0 20 20" aria-labelledby="icon-svg-title- icon-svg-desc-" role="img"
+                                class="sc-rbbb40-0 fauQLv">
+                                <title>
+                                  star-fill
+                                </title>
+                                <path
+                                  d="M6.76 6.8l-6.38 0.96c-0.22 0.040-0.38 0.22-0.38 0.44 0 0.12 0.040 0.24 0.12 0.32v0l4.64 4.76-1.1 6.66c0 0.020 0 0.040 0 0.080 0 0.24 0.2 0.44 0.44 0.44 0.1 0 0.16-0.020 0.24-0.060v0l5.7-3.12 5.68 3.12c0.060 0.040 0.14 0.060 0.22 0.060 0.24 0 0.44-0.2 0.44-0.44 0-0.040 0-0.060 0-0.080v0l-1.1-6.66 4.64-4.76c0.080-0.080 0.12-0.2 0.12-0.32 0-0.22-0.16-0.4-0.36-0.44h-0.020l-6.38-0.96-2.96-6.18c-0.060-0.12-0.18-0.2-0.32-0.2s-0.26 0.080-0.32 0.2v0z">
+                                </path>
+                              </svg>
+                            </i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sc-bQmweE jKFBGV">
+                <!-- <p class="sc-1hez2tp-0 sc-imDdex AYTKB">
+                                {{product.description}}
+                              </p> -->
+                <p class="sc-1hez2tp-0 sc-imDdex djnfgb">
+                  {{product.price}} vnđ for one
+                </p>
+              </div>
+              <span class="sc-jbWsrJ qApLp">
+              </span>
+              <div class="sc-fGSyRc fSXTKp">
+              </div>   
+            </a>
+            
+            <div class="sc-fguZLD jqMKMd">
+              {%if product.id in list_favorites %}
+              <button id="add-favorite{{product.id}}" onclick="add_favorites(`{{product.id}}`)" url = "{%url 'product:favorites'%}"
+                style="width: 28%; border: none; height: 40px; border-radius: 10px; font-size: 1.7rem; background-color: rgb(243, 239, 199);">
+                <i id="heart-favorite{{product.id}}" class="fa-regular fa-solid fa-heart fa-xl" style="padding-top: 0.8rem;color: #FEAF39;">
+                </i>
+              </button>
+              {%else%}
+              <button id="add-favorite{{product.id}}" onclick="add_favorites(`{{product.id}}`)" url = "{%url 'product:favorites'%}"
+                style="width: 28%; border: none; height: 40px; border-radius: 10px; font-size: 1.7rem; background-color: rgb(243, 239, 199);">
+                <span id="heart-favorite{{product.id}}" class="fa-regular fa-heart fa-xl" style="padding-top: 0.8rem; color: #FEAF39;">
+                </span>
+              </button>
+              {%endif%}
+              <button style="width: 67%; border: none; height: 40px; border-radius: 10px; font-size: 1.7rem; background-color: rgb(240 215 215);" onclick="addToTable(`{{product.id}}`,`{{product.url_img}}`,`{{product.name}}`,`{{product.price}}`,`{{is_order}}`)">Order</button>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+
+      </div>
+    </div>
+  </div>
+
+  {%endblock%}
+  <!-- Menu End -->
+  {%block js%}
+  <script src="{%static 'js/menu.js'%}"></script>
+  {%endblock%}

@@ -1,0 +1,30 @@
+{%extends 'product/infor.html'%}
+{%load static%}
+{%block css%}
+<link href="{% static 'css/ordered.css'%}" rel="stylesheet">
+<link href="{% static 'css/infor.css'%}" rel="stylesheet">
+{%endblock%}
+{%block section%}
+<section class="section-body">
+    <h4>Your Booked</h4>
+    <div>
+        {% csrf_token %}
+        {{content_invites}}
+        {%if ordered%}        
+            <div class="container form-main wow fadeInUp"> 
+                <div class="modal-body" id="list-form-ordered">
+                    {{ordered}}
+                </div>        
+            </div>       
+        {%else%}
+        <div class="text-center" style="margin-top: 3rem;">
+            <span>You don't have any orders yet.</span>
+        </div>
+        {%endif%}
+    </div>
+</section>
+{%endblock%}
+{%block js%}
+<script src="{% static 'js/ordered.js' %}"></script>
+<script src="{% static 'js/signout.js' %}"></script>
+{%endblock%}

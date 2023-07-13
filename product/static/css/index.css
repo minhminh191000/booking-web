@@ -1,0 +1,15 @@
+#home-active{
+    color: #fea116 !important;
+}
+
+.quantity-favorite{
+    top: 30px ;
+    font-size: 0.8rem ;
+    position: absolute ;
+}
+
+.sticky-top .quantity-favorite{
+    top: 15px ;
+    font-size: 0.8rem;
+    position: absolute;
+}

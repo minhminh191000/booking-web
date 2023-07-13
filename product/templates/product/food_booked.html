@@ -1,0 +1,22 @@
+{%if ordered.order_set.all %}
+{%for order in ordered.order_set.all %}
+<li id="item-{{ordered.id}}-{{order.product.id}}">
+    <div>
+        <img src="{{order.product.url_img}}" alt="">
+    </div>
+    <div style="justify-content: flex-start;">{{order.product.name}}</div>
+    <div id="price-{{ordered.id}}-{{order.product.id}}">{{order.product.price}} vnđ</div>
+    <div>
+        <button type='button' onclick="subQuantity(`{{ordered.id}}`,`{{order.product.id}}`)">-</button>
+        <div id='quantity-{{ordered.id}}-{{order.product.id}}' class="count">{{order.quantity}}</div>
+        <button type='button' onclick="addQuantity(`{{ordered.id}}`,`{{order.product.id}}`)">+</button>
+    </div>
+    <div>
+        <i onclick="removeFood(`{{ordered.id}}`,`{{order.product.id}}`)" class="fa-solid fa-trash fa-xl"></i>
+    </div>
+</li>
+{%endfor%}
+
+{%else%}
+<p id="no-food-{{ordered.id}}-selected" style="text-align: center;">No food seleted.</p style="text-align: center;">
+{%endif%}

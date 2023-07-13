@@ -1,0 +1,83 @@
+{%extends 'product/infor.html'%}
+{%load static%}
+{%block css%}
+<link href="{% static 'css/food_eaten.css'%}" rel="stylesheet">
+<link href="{% static 'css/infor.css'%}" rel="stylesheet">
+{%endblock%}
+{%block section%}
+<!-- Button trigger modal -->
+<button hidden id="add_log" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_log_modal">
+</button>
+<!-- Modal -->
+<div class="modal fade" id="add_log_modal" tabindex="-1" aria-labelledby="labelAdd" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered text-center" style="max-width: 830px;">
+        <div class="modal-content" style=" background-color: #F1F8FF;
+                                    margin: auto;
+                                    border: none;
+                                    height: fit-content;
+                                    border-radius: 10px;">
+            <div class="modal-header" style="height: 60px;">
+                <h3 class="modal-title"  id="labelAdd">Add to table</h3>
+                <button id="close-add" type="button"  class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="add-body" class="modal-body" style="font-size: 1.5rem; line-height: 66px;">
+                <div class="selected-food">
+                    <div>
+                      <img id="food_add_url" src="" alt="">
+                    </div>
+                    <div id="food_add_name" style="justify-content: flex-start;width: max-content;"></div>
+                    <div id="food_add_price"></div>
+                    <div>
+                        <button type='button' onclick="subQuantity()">-</button>
+                        <div id='food_add_quantity' class="count">1</div>
+                        <button type='button' onclick="addQuantity()">+</button>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center;margin-top: 2rem;padding-left: 2.5rem;" >
+                  <span style="margin-right: 1rem;">Table ordered: </span>
+                  <div class="form-floating" style="width: 50%;">
+                      
+                      <select class="form-select shadow-none" id="select-ordered" style="height: 3.5rem;padding: 0 0 0 1rem; border-radius: 1rem; border: none;font-size: 1.2rem;">
+                          {%for order in ordered%}
+                            <option value="{{order.id}}">{{order.order_date}}</option>
+                          {%endfor%}
+                      </select>
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer" >
+                <button id="btn_confirm_add" type="button" url="{%url 'product:add-food-to-order'%}" class="btn btn-primary shadow-none on-submit" onclick="submitAdd()" style="font-size: 1.2rem;width: 80px;
+            border-radius: 10px;
+            margin-right: 15px;">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="section-body">
+    <h4>Food Eaten</h4>
+    <div class="list-favorites-container">
+        {%if list_food%}
+        <ul class="list-favorite">
+            {%csrf_token%}
+            {%for pro in list_food%}
+            <li class="favorite-food row">
+                <img src="{{pro.url_img}}" alt="{{pro.name}}" class="col">
+                <a href="{%url 'product:food' pro.id %}" class="col">{{pro.name}}</a>
+                <span class="col">{{pro.price}} vnđ</span>
+                <button class="col btn btn-primary shadow-none on-submit" id="add-to-table" onclick="addToTable(`{{pro.id}}`,`{{pro.url_img}}`,`{{pro.name}}`,`{{pro.price}}`,`{{is_order}}`)">Add to table</button>
+                <button class="col btn btn-danger shadow-none on-submit" onclick="delete_favorite(event,`{{pro.id}}`)">Delete</button>
+            </li>
+            {%endfor%}
+        </ul>
+        {%else%}
+        <div class="text-center" style="margin-top: 3rem;">
+            <span >You haven't ordered food in our website.</span>
+        </div>
+        {%endif%}
+    </div>
+</section>
+{%endblock%}
+{%block js%}
+<script src="{% static 'js/favorites.js' %}"></script>
+<script src="{% static 'js/signout.js' %}"></script>
+{%endblock%}

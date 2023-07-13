@@ -1,0 +1,16 @@
+.select-pay {
+    font-weight: 900;
+}
+.need-pay{
+    margin: 2rem;
+    background-color: rgba(0,0,0,0.15);
+    border-radius: 2rem;
+    padding: 2rem;
+    height: fit-content;
+}
+.form-select{
+    border-radius: 1rem;
+}
+.col-md-6{
+    margin-bottom: 1rem;
+}
