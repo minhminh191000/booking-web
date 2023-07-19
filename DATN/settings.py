@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user',
     'product',
+    'rest_framework',
     # 'corsheaders',
     # 'django_crontab',
 ]
